@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Campus Feed – Campus Connect</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo"><div class="logo-icon">🎓</div><span>Campus Connect<small>Student Portal</small></span></div>
+  <div class="sidebar-section">Main Menu</div>
+  <nav class="sidebar-nav">
+    <ul>
+      <li><a href="dashboard.html"><i class="fas fa-th-large"></i> Dashboard</a></li>
+      <li><a href="events.html"><i class="fas fa-calendar-alt"></i> Events</a></li>
+      <li><a href="notes.html"><i class="fas fa-book-open"></i> Study Resources</a></li>
+      <li><a href="feed.html" class="active"><i class="fas fa-stream"></i> Campus Feed</a></li>
+    </ul>
+    <div class="sidebar-section">Account</div>
+    <ul>
+      <li><a href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+  </nav>
+  <div class="sidebar-user">
+    <div class="user-avatar">RS</div>
+    <div class="user-info"><span>Rahul S.</span><small>CSE – 4th Year</small></div>
+  </div>
+</aside>
+
+<header class="topbar">
+  <div class="topbar-left">
+    <button class="hamburger" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+    <div>
+      <div class="topbar-title">Campus Feed</div>
+      <div class="topbar-subtitle">Inspiring posts & campus highlights</div>
+    </div>
+  </div>
+  <div class="topbar-search">
+    <i class="fas fa-search"></i>
+    <input type="text" placeholder="Search feed..."/>
+  </div>
+  <div class="topbar-right">
+    <div class="topbar-icon-btn"><i class="fas fa-bell"></i><span class="notif-dot"></span></div>
+    <div class="topbar-avatar">RS</div>
+  </div>
+</header>
+
+<main class="main-content">
+  <div class="page-header fade-in">
+    <div><h2>📸 Campus Feed</h2><p>Stay inspired with posts from students, faculty, and the campus community.</p></div>
+  </div>
+
+  <div class="filter-tabs fade-in fade-in-1">
+    <div class="filter-tab active" onclick="filterFeed('all',this)">All Posts</div>
+    <div class="filter-tab" onclick="filterFeed('motivation',this)">💪 Motivation</div>
+    <div class="filter-tab" onclick="filterFeed('achievement',this)">🏆 Achievements</div>
+    <div class="filter-tab" onclick="filterFeed('event',this)">🎉 Events</div>
+    <div class="filter-tab" onclick="filterFeed('tip',this)">💡 Study Tips</div>
+    <div class="filter-tab" onclick="filterFeed('campus',this)">🏫 Campus Life</div>
+  </div>
+
+  <div class="feed-grid fade-in fade-in-2" id="feedGrid"></div>
+</main>
+
+<script>
+const posts = [
+  { id:1, type:'motivation', emoji:'💪', bg:['#4f46e5','#818cf8'], author:'Placement Cell', role:'Admin', avatar:'PC', title:'You Got This! 🚀', text:'Final year is tough but remember — every late-night study session is an investment in your future. Keep going!', likes:142, comments:18, time:'2h ago' },
+  { id:2, type:'achievement', emoji:'🏆', bg:['#f59e0b','#fbbf24'], author:'Priya M.', role:'CSE 4th Year', avatar:'PM', title:'Selected at Google! 🎉', text:'Thrilled to share that I have been selected for a Software Engineer role at Google! Grateful to all professors and friends!', likes:389, comments:54, time:'5h ago' },
+  { id:3, type:'event', emoji:'🎉', bg:['#ec4899','#f472b6'], author:'Student Council', role:'Official', avatar:'SC', title:'Tech Fest 2024 is HERE!', text:'Get ready for Tech Fest 2024 – Innovate! April 15th. Hackathon, robotics, coding contests and more. Register now!', likes:210, comments:32, time:'1d ago' },
+  { id:4, type:'tip', emoji:'💡', bg:['#10b981','#34d399'], author:'Prof. Ramesh K.', role:'Faculty – DBMS', avatar:'RK', title:'DBMS Study Tip', text:'Before the internal exam, focus on ER diagrams, normalization (1NF-3NF), and SQL joins. These topics carry 60% of marks!', likes:98, comments:12, time:'1d ago' },
+  { id:5, type:'campus', emoji:'☕', bg:['#06b6d4','#22d3ee'], author:'Campus Life', role:'Admin', avatar:'CL', title:'New Canteen Menu!', text:'Our college canteen has added 10 new items to the menu including healthy options. Do check it out!', likes:76, comments:9, time:'2d ago' },
+  { id:6, type:'achievement', emoji:'🥇', bg:['#8b5cf6','#a78bfa'], author:'Robotics Club', role:'Club', avatar:'RC', title:'1st Place at IIT Hackathon!', text:'Our team won 1st place at the National Robotics Competition at IIT Chennai! Proud of the entire team. 🤖', likes:445, comments:67, time:'3d ago' },
+  { id:7, type:'motivation', emoji:'📚', bg:['#ef4444','#f87171'], author:'Library', role:'Official', avatar:'LB', title:'Reading Month – Challenge', text:'Join our reading challenge this April! Read 2 books and win exciting prizes. Visit the library to enroll.', likes:55, comments:8, time:'3d ago' },
+  { id:8, type:'tip', emoji:'🖥️', bg:['#f59e0b','#fbbf24'], author:'Prof. Anitha S.', role:'Faculty – DSA', avatar:'AS', title:'Coding Practice Tip', text:'Practice at least 2 DSA problems daily on LeetCode or HackerRank. Consistency beats intensity. Even 30 mins/day adds up!', likes:134, comments:22, time:'4d ago' },
+  { id:9, type:'campus', emoji:'🌿', bg:['#10b981','#6ee7b7'], author:'NSS Unit', role:'Club', avatar:'NS', title:'Green Campus Drive – Join Us!', text:'We are planting 500 trees across campus this Saturday. Come join us at 8 AM at the main gate. Every hand counts!', likes:88, comments:14, time:'5d ago' },
+];
+
+let liked = {};
+let currentType = 'all';
+
+function renderFeed(data) {
+  const grid = document.getElementById('feedGrid');
+  if (!data.length) { grid.innerHTML = '<p style="color:var(--text-muted);">No posts found.</p>'; return; }
+  grid.innerHTML = data.map(p => `
+  <div class="feed-card" id="card-${p.id}">
+    <div class="feed-card-img" style="background:linear-gradient(135deg,${p.bg[0]},${p.bg[1]});">
+      <span>${p.emoji}</span>
+    </div>
+    <div class="feed-card-body">
+      <div class="feed-author">
+        <div class="feed-avatar" style="background:${p.bg[0]};">${p.avatar}</div>
+        <div>
+          <div class="feed-author-name">${p.author}</div>
+          <div class="feed-author-role">${p.role} &nbsp;·&nbsp; ${p.time}</div>
+        </div>
+      </div>
+      <div class="feed-card-title">${p.title}</div>
+      <div class="feed-card-text">${p.text}</div>
+    </div>
+    <div class="feed-card-actions">
+      <div class="feed-action ${liked[p.id]?'liked':''}" onclick="toggleLike(${p.id}, ${p.likes})">
+        <i class="fas fa-heart"></i>
+        <span id="likes-${p.id}">${liked[p.id]?p.likes+1:p.likes}</span>
+      </div>
+      <div class="feed-action">
+        <i class="fas fa-comment"></i>
+        <span>${p.comments}</span>
+      </div>
+      <div class="feed-action" onclick="alert('Link copied!')">
+        <i class="fas fa-share-alt"></i>
+        <span>Share</span>
+      </div>
+      <div class="feed-action" style="margin-left:auto;">
+        <i class="fas fa-bookmark"></i>
+      </div>
+    </div>
+  </div>`).join('');
+}
+
+function toggleLike(id, base) {
+  liked[id] = !liked[id];
+  document.getElementById('likes-'+id).textContent = liked[id] ? base+1 : base;
+  const el = document.querySelector('#card-'+id+' .feed-action');
+  el.classList.toggle('liked', liked[id]);
+}
+
+function filterFeed(type, el) {
+  currentType = type;
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const filtered = type === 'all' ? posts : posts.filter(p => p.type === type);
+  renderFeed(filtered);
+}
+
+renderFeed(posts);
+
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('show'); }
+function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
+</script>
+</body>
+</html>

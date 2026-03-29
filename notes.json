@@ -1,0 +1,10 @@
+[
+  { "id": 1, "title": "Unit 1 – Arrays & Linked Lists", "subject": "Data Structures & Algorithms", "code": "CS301", "year": 4, "type": "pdf", "faculty": "Prof. Anitha Sharma", "size": "2.1 MB", "url": "/files/ds-unit1.pdf", "date": "2024-03-28" },
+  { "id": 2, "title": "Unit 2 – Stacks & Queues", "subject": "Data Structures & Algorithms", "code": "CS301", "year": 4, "type": "pdf", "faculty": "Prof. Anitha Sharma", "size": "1.8 MB", "url": "/files/ds-unit2.pdf", "date": "2024-03-20" },
+  { "id": 3, "title": "Trees & Binary Search Trees – Explained", "subject": "Data Structures & Algorithms", "code": "CS301", "year": 4, "type": "video", "faculty": "YouTube – Abdul Bari", "size": "38 mins", "url": "https://youtube.com", "date": "2024-03-15" },
+  { "id": 4, "title": "Unit 1 – ER Diagrams & Normalization", "subject": "Database Management Systems", "code": "CS302", "year": 4, "type": "pdf", "faculty": "Prof. Ramesh Kumar", "size": "3.2 MB", "url": "/files/dbms-unit1.pdf", "date": "2024-03-25" },
+  { "id": 5, "title": "SQL Joins Full Tutorial", "subject": "Database Management Systems", "code": "CS302", "year": 4, "type": "video", "faculty": "YouTube – Programming with Mosh", "size": "45 mins", "url": "https://youtube.com", "date": "2024-03-12" },
+  { "id": 6, "title": "OSI Model & TCP/IP – Full Notes", "subject": "Computer Networks", "code": "CS303", "year": 4, "type": "pdf", "faculty": "Prof. Priya Nair", "size": "2.8 MB", "url": "/files/cn-unit2.pdf", "date": "2024-03-22" },
+  { "id": 7, "title": "Unit 1 – Process Management", "subject": "Operating Systems", "code": "CS304", "year": 4, "type": "pdf", "faculty": "Prof. Suresh", "size": "1.9 MB", "url": "/files/os-unit1.pdf", "date": "2024-03-28" },
+  { "id": 8, "title": "ML by Andrew Ng – Week 1 & 2", "subject": "Machine Learning", "code": "CS401", "year": 4, "type": "video", "faculty": "Coursera", "size": "4h", "url": "https://coursera.org", "date": "2024-03-24" }
+]

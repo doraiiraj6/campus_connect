@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel – Campus Connect</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo"><div class="logo-icon">🛡️</div><span>Admin Panel<small>Faculty / Admin</small></span></div>
+  <div class="sidebar-section">Admin Menu</div>
+  <nav class="sidebar-nav">
+    <ul>
+      <li><a href="admin.html" class="active"><i class="fas fa-tachometer-alt"></i> Admin Dashboard</a></li>
+      <li><a href="dashboard.html"><i class="fas fa-th-large"></i> Student View</a></li>
+      <li><a href="events.html"><i class="fas fa-calendar-alt"></i> Events</a></li>
+      <li><a href="notes.html"><i class="fas fa-book-open"></i> Resources</a></li>
+      <li><a href="feed.html"><i class="fas fa-stream"></i> Feed</a></li>
+    </ul>
+    <div class="sidebar-section">Account</div>
+    <ul>
+      <li><a href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+  </nav>
+  <div class="sidebar-user">
+    <div class="user-avatar" style="background:#ec4899;">FK</div>
+    <div class="user-info"><span>Faculty / Admin</span><small>faculty@cc.edu</small></div>
+  </div>
+</aside>
+
+<header class="topbar">
+  <div class="topbar-left">
+    <button class="hamburger" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+    <div>
+      <div class="topbar-title">Admin Panel</div>
+      <div class="topbar-subtitle">Manage events, resources & announcements</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="topbar-icon-btn"><i class="fas fa-bell"></i><span class="notif-dot"></span></div>
+    <div class="topbar-avatar" style="background:linear-gradient(135deg,#ec4899,#8b5cf6);">FK</div>
+  </div>
+</header>
+
+<main class="main-content">
+  <!-- STATS -->
+  <div class="stat-grid fade-in">
+    <div class="stat-card">
+      <div class="stat-icon blue"><i class="fas fa-users"></i></div>
+      <div class="stat-info"><div class="stat-value">1,240</div><div class="stat-label">Total Students</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon purple"><i class="fas fa-calendar-alt"></i></div>
+      <div class="stat-info"><div class="stat-value">12</div><div class="stat-label">Active Events</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon green"><i class="fas fa-book"></i></div>
+      <div class="stat-info"><div class="stat-value">88</div><div class="stat-label">Resources Uploaded</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon amber"><i class="fas fa-bullhorn"></i></div>
+      <div class="stat-info"><div class="stat-value">6</div><div class="stat-label">Announcements</div></div>
+    </div>
+  </div>
+
+  <div class="content-grid fade-in fade-in-2">
+    <!-- ADD EVENT FORM -->
+    <div class="card">
+      <div class="card-header"><span><i class="fas fa-plus-circle" style="color:var(--primary);margin-right:8px;"></i>Add New Event</span></div>
+      <div class="card-body">
+        <div class="form-group">
+          <label class="form-label">Event Name *</label>
+          <input type="text" class="form-control" id="evName" placeholder="e.g., Tech Fest 2024"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Event Type *</label>
+          <select class="form-control" id="evType">
+            <option value="">Select Type</option>
+            <option>Cultural</option><option>Workshop</option><option>Seminar</option>
+            <option>Sports</option><option>Placement</option><option>Exam</option>
+          </select>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="form-group">
+            <label class="form-label">Date *</label>
+            <input type="date" class="form-control" id="evDate"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Time *</label>
+            <input type="time" class="form-control" id="evTime"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Venue *</label>
+          <input type="text" class="form-control" id="evVenue" placeholder="e.g., Seminar Hall A"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea class="form-control" id="evDesc" placeholder="Brief description of the event..."></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="addEvent()"><i class="fas fa-plus"></i> Add Event</button>
+        <div id="evMsg" style="margin-top:10px;font-size:0.85rem;"></div>
+      </div>
+    </div>
+
+    <!-- ADD RESOURCE FORM -->
+    <div class="card">
+      <div class="card-header"><span><i class="fas fa-upload" style="color:var(--primary);margin-right:8px;"></i>Upload Resource / Note</span></div>
+      <div class="card-body">
+        <div class="form-group">
+          <label class="form-label">Resource Title *</label>
+          <input type="text" class="form-control" id="resTitle" placeholder="e.g., Unit 3 – SQL Queries"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Subject *</label>
+          <select class="form-control" id="resSub">
+            <option value="">Select Subject</option>
+            <option>Data Structures & Algorithms</option>
+            <option>Database Management Systems</option>
+            <option>Computer Networks</option>
+            <option>Operating Systems</option>
+            <option>Machine Learning</option>
+          </select>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="form-group">
+            <label class="form-label">Type *</label>
+            <select class="form-control" id="resType">
+              <option value="">Select Type</option>
+              <option>PDF</option><option>Video Link</option><option>Reference Link</option><option>Question Paper</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Year *</label>
+            <select class="form-control" id="resYear">
+              <option>1st Year</option><option>2nd Year</option><option>3rd Year</option><option selected>4th Year</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">URL / Link</label>
+          <input type="url" class="form-control" id="resUrl" placeholder="https://..."/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">File Upload (Demo Only)</label>
+          <input type="file" class="form-control" id="resFile"/>
+        </div>
+        <button class="btn btn-success" onclick="addResource()"><i class="fas fa-upload"></i> Upload Resource</button>
+        <div id="resMsg" style="margin-top:10px;font-size:0.85rem;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANNOUNCEMENTS FORM -->
+  <div class="card fade-in fade-in-3" style="margin-bottom:24px;">
+    <div class="card-header"><span><i class="fas fa-bullhorn" style="color:var(--primary);margin-right:8px;"></i>Post Announcement</span></div>
+    <div class="card-body" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;align-items:end;">
+      <div class="form-group mb-0">
+        <label class="form-label">Announcement Title</label>
+        <input type="text" class="form-control" id="annTitle" placeholder="e.g., Exam Schedule Updated"/>
+      </div>
+      <div class="form-group mb-0">
+        <label class="form-label">Priority</label>
+        <select class="form-control" id="annPriority">
+          <option>General</option><option>Info</option><option>Urgent</option><option>Exam</option>
+        </select>
+      </div>
+      <div class="form-group mb-0">
+        <label class="form-label">Message</label>
+        <input type="text" class="form-control" id="annMsg" placeholder="Short message..."/>
+      </div>
+    </div>
+    <div class="card-body" style="padding-top:0;">
+      <button class="btn btn-primary" onclick="postAnnouncement()"><i class="fas fa-paper-plane"></i> Post Announcement</button>
+      <div id="annResult" style="margin-top:10px;font-size:0.85rem;"></div>
+    </div>
+  </div>
+
+  <!-- STUDENTS TABLE -->
+  <div class="card fade-in fade-in-4">
+    <div class="card-header">
+      <span><i class="fas fa-users" style="color:var(--primary);margin-right:8px;"></i>Registered Students</span>
+      <div class="card-actions"><input type="text" placeholder="Search..." style="padding:5px 10px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem;" oninput="searchStudents(this.value)"/></div>
+    </div>
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr><th>Roll No</th><th>Name</th><th>Department</th><th>Year</th><th>Email</th><th>Attendance</th><th>Status</th></tr>
+        </thead>
+        <tbody id="studentsTable"></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<script>
+const students = [
+  { roll:'CS21001', name:'Rahul Sharma', dept:'CSE', year:'4th', email:'rahul@cc.edu', att:82, status:'active' },
+  { roll:'CS21002', name:'Priya Menon', dept:'CSE', year:'4th', email:'priya@cc.edu', att:91, status:'active' },
+  { roll:'CS21003', name:'Arun Kumar', dept:'CSE', year:'4th', email:'arun@cc.edu', att:65, status:'warning' },
+  { roll:'CS21004', name:'Sneha Patel', dept:'CSE', year:'4th', email:'sneha@cc.edu', att:88, status:'active' },
+  { roll:'EC21005', name:'Vikram Iyer', dept:'ECE', year:'4th', email:'vikram@cc.edu', att:74, status:'active' },
+  { roll:'ME21006', name:'Deepa Nair', dept:'MECH', year:'4th', email:'deepa@cc.edu', att:55, status:'low' },
+  { roll:'CS21007', name:'Ankit Raj', dept:'CSE', year:'3rd', email:'ankit@cc.edu', att:79, status:'active' },
+  { roll:'CS21008', name:'Kavya S.', dept:'CSE', year:'3rd', email:'kavya@cc.edu', att:93, status:'active' },
+];
+
+let studentsData = [...students];
+
+function renderStudents(data) {
+  const attColor = a => a >= 80 ? 'success' : a >= 65 ? 'warning' : 'danger';
+  document.getElementById('studentsTable').innerHTML = data.map(s => `
+    <tr>
+      <td><strong>${s.roll}</strong></td>
+      <td>${s.name}</td>
+      <td>${s.dept}</td>
+      <td>${s.year}</td>
+      <td>${s.email}</td>
+      <td><span class="badge badge-${attColor(s.att)}">${s.att}%</span></td>
+      <td><span class="badge badge-${s.status==='active'?'success':s.status==='warning'?'warning':'danger'}">${s.status}</span></td>
+    </tr>`).join('');
+}
+
+function searchStudents(q) {
+  const f = q.toLowerCase();
+  renderStudents(studentsData.filter(s => s.name.toLowerCase().includes(f) || s.roll.toLowerCase().includes(f) || s.dept.toLowerCase().includes(f)));
+}
+
+function addEvent() {
+  const name = document.getElementById('evName').value.trim();
+  const type = document.getElementById('evType').value;
+  const date = document.getElementById('evDate').value;
+  const venue = document.getElementById('evVenue').value.trim();
+  const msg = document.getElementById('evMsg');
+  if (!name || !type || !date || !venue) {
+    msg.innerHTML = '<span style="color:var(--danger);">❌ Please fill all required fields.</span>'; return;
+  }
+  msg.innerHTML = `<span style="color:var(--success);">✅ Event "<strong>${name}</strong>" added successfully! (Demo – not saved to file)</span>`;
+  document.getElementById('evName').value = '';
+  document.getElementById('evVenue').value = '';
+  document.getElementById('evDesc').value = '';
+}
+
+function addResource() {
+  const title = document.getElementById('resTitle').value.trim();
+  const sub = document.getElementById('resSub').value;
+  const type = document.getElementById('resType').value;
+  const msg = document.getElementById('resMsg');
+  if (!title || !sub || !type) {
+    msg.innerHTML = '<span style="color:var(--danger);">❌ Please fill all required fields.</span>'; return;
+  }
+  msg.innerHTML = `<span style="color:var(--success);">✅ Resource "<strong>${title}</strong>" uploaded! (Demo)</span>`;
+  document.getElementById('resTitle').value = '';
+  document.getElementById('resUrl').value = '';
+}
+
+function postAnnouncement() {
+  const title = document.getElementById('annTitle').value.trim();
+  const ann = document.getElementById('annMsg').value.trim();
+  const res = document.getElementById('annResult');
+  if (!title || !ann) {
+    res.innerHTML = '<span style="color:var(--danger);">❌ Title and message required.</span>'; return;
+  }
+  res.innerHTML = `<span style="color:var(--success);">✅ Announcement "<strong>${title}</strong>" posted to all students! (Demo)</span>`;
+  document.getElementById('annTitle').value = '';
+  document.getElementById('annMsg').value = '';
+}
+
+renderStudents(studentsData);
+
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('show'); }
+function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
+</script>
+</body>
+</html>

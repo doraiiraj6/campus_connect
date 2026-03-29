@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Events – Campus Connect</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">🎓</div>
+    <span>Campus Connect<small>Student Portal</small></span>
+  </div>
+  <div class="sidebar-section">Main Menu</div>
+  <nav class="sidebar-nav">
+    <ul>
+      <li><a href="dashboard.html"><i class="fas fa-th-large"></i> Dashboard</a></li>
+      <li><a href="events.html" class="active"><i class="fas fa-calendar-alt"></i> Events <span class="badge-count">3</span></a></li>
+      <li><a href="notes.html"><i class="fas fa-book-open"></i> Study Resources</a></li>
+      <li><a href="feed.html"><i class="fas fa-stream"></i> Campus Feed</a></li>
+    </ul>
+    <div class="sidebar-section">Academic</div>
+    <ul>
+      <li><a href="#"><i class="fas fa-file-alt"></i> Results</a></li>
+      <li><a href="#"><i class="fas fa-clock"></i> Timetable</a></li>
+      <li><a href="#"><i class="fas fa-bell"></i> Notifications <span class="badge-count">5</span></a></li>
+    </ul>
+    <div class="sidebar-section">Account</div>
+    <ul>
+      <li><a href="#"><i class="fas fa-user-circle"></i> My Profile</a></li>
+      <li><a href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+  </nav>
+  <div class="sidebar-user">
+    <div class="user-avatar">RS</div>
+    <div class="user-info"><span>Rahul S.</span><small>CSE – 4th Year</small></div>
+  </div>
+</aside>
+
+<header class="topbar">
+  <div class="topbar-left">
+    <button class="hamburger" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+    <div>
+      <div class="topbar-title">Events</div>
+      <div class="topbar-subtitle">Campus events, fests & workshops</div>
+    </div>
+  </div>
+  <div class="topbar-search">
+    <i class="fas fa-search"></i>
+    <input type="text" placeholder="Search events..." id="searchInput" oninput="filterEvents()"/>
+  </div>
+  <div class="topbar-right">
+    <div class="topbar-icon-btn"><i class="fas fa-bell"></i><span class="notif-dot"></span></div>
+    <div class="topbar-avatar">RS</div>
+  </div>
+</header>
+
+<main class="main-content">
+  <div class="page-header fade-in">
+    <div>
+      <h2>📅 Campus Events</h2>
+      <p>Stay updated with all upcoming events, workshops, fests, and exams.</p>
+    </div>
+  </div>
+
+  <!-- FILTER TABS -->
+  <div class="filter-tabs fade-in fade-in-1">
+    <div class="filter-tab active" onclick="filterByType('all', this)">All Events</div>
+    <div class="filter-tab" onclick="filterByType('cultural', this)">🎉 Cultural</div>
+    <div class="filter-tab" onclick="filterByType('workshop', this)">🛠️ Workshop</div>
+    <div class="filter-tab" onclick="filterByType('exam', this)">📝 Exams</div>
+    <div class="filter-tab" onclick="filterByType('sports', this)">⚽ Sports</div>
+    <div class="filter-tab" onclick="filterByType('placement', this)">💼 Placement</div>
+    <div class="filter-tab" onclick="filterByType('seminar', this)">🎤 Seminar</div>
+  </div>
+
+  <!-- EVENTS TABLE CARD -->
+  <div class="card fade-in fade-in-2">
+    <div class="card-header">
+      <span>All Events <span id="countBadge" class="badge badge-primary" style="margin-left:8px;">12</span></span>
+    </div>
+    <div class="table-responsive">
+      <table id="eventsTable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Event Name</th>
+            <th>Type</th>
+            <th>Venue</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="eventsTbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- EVENT GRID CARDS -->
+  <div style="margin-top:28px;">
+    <h3 style="font-family:var(--font-heading);font-size:1.1rem;font-weight:800;margin-bottom:16px;" class="fade-in fade-in-3">🌟 Featured Events</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;" id="featuredGrid" class="fade-in fade-in-3"></div>
+  </div>
+</main>
+
+<script>
+const events = [
+  { date:'Apr 10', day:10, month:'Apr', name:'DBMS Internal Exam – Unit 3', type:'exam', venue:'Exam Hall', time:'9:00 AM', status:'upcoming', featured:false },
+  { date:'Apr 15', day:15, month:'Apr', name:'Tech Fest 2024 – Innovate', type:'cultural', venue:'Seminar Hall A', time:'9:00 AM', status:'open', featured:true, emoji:'🎉', desc:'Annual technical fest with coding contests, hackathons, robotics, and much more! Open for all departments.' },
+  { date:'Apr 18', day:18, month:'Apr', name:'ML Workshop – Hands-on Python', type:'workshop', venue:'CS Lab 2', time:'10:30 AM', status:'open', featured:true, emoji:'🤖', desc:'Hands-on workshop on Machine Learning using Python. Topics: NumPy, Pandas, Scikit-Learn.' },
+  { date:'Apr 20', day:20, month:'Apr', name:'Cloud Computing Seminar', type:'seminar', venue:'Room 105', time:'2:00 PM', status:'open', featured:false },
+  { date:'Apr 22', day:22, month:'Apr', name:'Sports Day – Inter-Department', type:'sports', venue:'College Ground', time:'8:00 AM', status:'open', featured:true, emoji:'⚽', desc:'Annual inter-department sports meet. Events: Cricket, Football, Badminton, Athletics.' },
+  { date:'Apr 24', day:24, month:'Apr', name:'Resume Writing Workshop', type:'workshop', venue:'Seminar Hall B', time:'11:00 AM', status:'open', featured:false },
+  { date:'Apr 28', day:28, month:'Apr', name:'Placement Orientation – TCS, Infosys', type:'placement', venue:'Auditorium', time:'11:00 AM', status:'upcoming', featured:true, emoji:'💼', desc:'Placement drive orientation. Companies: TCS, Infosys, Wipro. Bring your resume and college ID.' },
+  { date:'May 2', day:2, month:'May', name:'Cultural Fest – Utsav 2024', type:'cultural', venue:'Open Stage', time:'4:00 PM', status:'open', featured:false },
+  { date:'May 5', day:5, month:'May', name:'Web Dev Bootcamp', type:'workshop', venue:'CS Lab 1', time:'9:30 AM', status:'upcoming', featured:false },
+  { date:'May 8', day:8, month:'May', name:'End Semester Theory Exams Begin', type:'exam', venue:'Exam Hall', time:'10:00 AM', status:'upcoming', featured:false },
+  { date:'May 12', day:12, month:'May', name:'Coding Contest – HackCampus', type:'cultural', venue:'CS Lab 3', time:'2:00 PM', status:'open', featured:false },
+  { date:'May 15', day:15, month:'May', name:'Industry Guest Lecture – AI/ML', type:'seminar', venue:'Auditorium', time:'3:00 PM', status:'upcoming', featured:false },
+];
+
+const statusColors = { open:'badge-success', upcoming:'badge-warning', closed:'badge-danger' };
+const typeColors = { cultural:'badge-primary', workshop:'badge-warning', exam:'badge-exam', sports:'badge-success', placement:'badge-danger', seminar:'badge-info' };
+const featuredColors = ['#4f46e5','#ec4899','#10b981','#f59e0b','#06b6d4'];
+
+let currentType = 'all';
+
+function renderTable(data) {
+  const tbody = document.getElementById('eventsTbody');
+  document.getElementById('countBadge').textContent = data.length;
+  if (!data.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:30px;">No events found.</td></tr>'; return; }
+  tbody.innerHTML = data.map(e => `
+    <tr>
+      <td><strong>${e.date}</strong></td>
+      <td><strong>${e.name}</strong></td>
+      <td><span class="badge ${typeColors[e.type] || 'badge-secondary'}">${e.type.charAt(0).toUpperCase()+e.type.slice(1)}</span></td>
+      <td>${e.venue}</td>
+      <td>${e.time}</td>
+      <td><span class="badge ${statusColors[e.status] || 'badge-secondary'}">${e.status.charAt(0).toUpperCase()+e.status.slice(1)}</span></td>
+      <td><button class="btn btn-outline btn-xs" onclick="alert('Registered for: ${e.name}')">Register</button></td>
+    </tr>
+  `).join('');
+}
+
+function renderFeatured(data) {
+  const grid = document.getElementById('featuredGrid');
+  const featured = data.filter(e => e.featured);
+  grid.innerHTML = featured.map((e,i) => `
+    <div class="feed-card">
+      <div class="feed-card-img" style="background:linear-gradient(135deg,${featuredColors[i%featuredColors.length]},${featuredColors[(i+1)%featuredColors.length]});">
+        <span>${e.emoji||'📅'}</span>
+      </div>
+      <div class="feed-card-body">
+        <div class="d-flex align-center gap-1 mb-1">
+          <span class="badge ${typeColors[e.type] || 'badge-secondary'}">${e.type}</span>
+          <span style="font-size:0.75rem;color:var(--text-muted);">${e.date} · ${e.time}</span>
+        </div>
+        <div class="feed-card-title">${e.name}</div>
+        <div class="feed-card-text">${e.desc||'Click to view more details about this event.'}</div>
+        <div style="margin-top:10px;">
+          <span style="font-size:0.78rem;color:var(--text-muted);"><i class="fas fa-map-marker-alt"></i> ${e.venue}</span>
+        </div>
+      </div>
+      <div class="feed-card-actions">
+        <button class="btn btn-primary btn-sm" onclick="alert('Registered for: ${e.name}!')"><i class="fas fa-check"></i> Register</button>
+        <button class="btn btn-outline btn-sm"><i class="fas fa-share-alt"></i> Share</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterByType(type, el) {
+  currentType = type;
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  applyFilters();
+}
+
+function filterEvents() { applyFilters(); }
+
+function applyFilters() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  let filtered = events;
+  if (currentType !== 'all') filtered = filtered.filter(e => e.type === currentType);
+  if (q) filtered = filtered.filter(e => e.name.toLowerCase().includes(q) || e.venue.toLowerCase().includes(q));
+  renderTable(filtered);
+  renderFeatured(filtered);
+}
+
+// Init
+renderTable(events);
+renderFeatured(events);
+
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('show'); }
+function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
+</script>
+</body>
+</html>

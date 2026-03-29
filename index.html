@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Campus Connect – Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div class="login-page">
+  <!-- LEFT PANEL -->
+  <div class="login-left">
+    <div class="brand">
+      <div class="brand-icon">🎓</div>
+      <div class="brand-name">Campus Connect<small>Smart Student Portal</small></div>
+    </div>
+    <h2>Your Campus,<br>All in One Place.</h2>
+    <p>Access events, study resources, exam schedules, and campus announcements — all from a single, beautiful dashboard.</p>
+    <div class="login-features">
+      <div class="login-feature"><i class="fas fa-bell"></i> Real-time event & exam notifications</div>
+      <div class="login-feature"><i class="fas fa-book-open"></i> Study notes & video resources</div>
+      <div class="login-feature"><i class="fas fa-images"></i> Inspiring campus feed</div>
+      <div class="login-feature"><i class="fas fa-chalkboard-teacher"></i> Faculty announcements</div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL – LOGIN FORM -->
+  <div class="login-right">
+    <div class="login-form-box fade-in">
+      <h3>Welcome Back 👋</h3>
+      <p class="sub">Sign in to access your personalized campus portal.</p>
+
+      <!-- ROLE SELECTOR -->
+      <div class="role-tabs" id="roleTabs">
+        <div class="role-tab active" onclick="setRole('student', this)">🎒 Student</div>
+        <div class="role-tab" onclick="setRole('faculty', this)">🧑‍🏫 Faculty</div>
+        <div class="role-tab" onclick="setRole('admin', this)">🛡️ Admin</div>
+      </div>
+
+      <!-- STUDENT CREDS HINT -->
+      <div class="alert alert-info" id="credHint">
+        <i class="fas fa-info-circle"></i>
+        <span id="hintText">Demo: <strong>student@cc.edu</strong> / <strong>password123</strong></span>
+      </div>
+
+      <!-- FORM -->
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <div class="input-icon-wrap">
+          <i class="fas fa-envelope"></i>
+          <input type="email" class="form-control" id="emailInput" placeholder="Enter your email" value="student@cc.edu"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="input-icon-wrap">
+          <i class="fas fa-lock"></i>
+          <input type="password" class="form-control" id="passInput" placeholder="Enter password" value="password123"/>
+        </div>
+      </div>
+      <a href="#" class="forgot-link">Forgot password?</a>
+
+      <button class="btn btn-primary w-100" onclick="handleLogin()" style="justify-content:center; padding:13px;">
+        <i class="fas fa-sign-in-alt"></i> Sign In
+      </button>
+
+      <div id="loginMsg" style="margin-top:14px; font-size:0.85rem; text-align:center; color:var(--danger); display:none;"></div>
+
+      <p style="margin-top:24px; font-size:0.82rem; color:var(--text-muted); text-align:center;">
+        © 2024 Campus Connect — Final Year Project Demo
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+const creds = {
+  student: { email:'student@cc.edu', pass:'password123', page:'dashboard.html', hint:'Demo: <strong>student@cc.edu</strong> / <strong>password123</strong>' },
+  faculty: { email:'faculty@cc.edu', pass:'faculty123', page:'admin.html', hint:'Demo: <strong>faculty@cc.edu</strong> / <strong>faculty123</strong>' },
+  admin: { email:'admin@cc.edu', pass:'admin123', page:'admin.html', hint:'Demo: <strong>admin@cc.edu</strong> / <strong>admin123</strong>' }
+};
+let currentRole = 'student';
+
+function setRole(role, el) {
+  currentRole = role;
+  document.querySelectorAll('.role-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const c = creds[role];
+  document.getElementById('emailInput').value = c.email;
+  document.getElementById('passInput').value = c.pass;
+  document.getElementById('hintText').innerHTML = c.hint;
+}
+
+function handleLogin() {
+  const email = document.getElementById('emailInput').value.trim();
+  const pass = document.getElementById('passInput').value.trim();
+  const c = creds[currentRole];
+  const msg = document.getElementById('loginMsg');
+  if (email === c.email && pass === c.pass) {
+    sessionStorage.setItem('cc_role', currentRole);
+    sessionStorage.setItem('cc_user', email);
+    window.location.href = c.page;
+  } else {
+    msg.style.display = 'block';
+    msg.textContent = '❌ Wrong credentials. Use the demo credentials shown above.';
+  }
+}
+
+// Allow Enter key
+document.addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
+</script>
+</body>
+</html>

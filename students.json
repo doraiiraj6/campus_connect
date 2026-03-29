@@ -1,0 +1,6 @@
+[
+  { "id": 1, "roll": "CS21001", "name": "Rahul Sharma", "email": "student@cc.edu", "password": "password123", "dept": "CSE", "year": 4, "semester": 8, "attendance": 82, "cgpa": 8.4 },
+  { "id": 2, "roll": "CS21002", "name": "Priya Menon", "email": "priya@cc.edu", "password": "priya123", "dept": "CSE", "year": 4, "semester": 8, "attendance": 91, "cgpa": 9.1 },
+  { "id": 3, "roll": "CS21003", "name": "Arun Kumar", "email": "arun@cc.edu", "password": "arun123", "dept": "CSE", "year": 4, "semester": 8, "attendance": 65, "cgpa": 7.2 },
+  { "id": 4, "roll": "EC21005", "name": "Vikram Iyer", "email": "vikram@cc.edu", "password": "vikram123", "dept": "ECE", "year": 4, "semester": 8, "attendance": 74, "cgpa": 7.8 }
+]

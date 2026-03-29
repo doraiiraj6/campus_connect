@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard – Campus Connect</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- SIDEBAR OVERLAY (mobile) -->
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">🎓</div>
+    <span>Campus Connect<small>Student Portal</small></span>
+  </div>
+  <div class="sidebar-section">Main Menu</div>
+  <nav class="sidebar-nav">
+    <ul>
+      <li><a href="dashboard.html" class="active"><i class="fas fa-th-large"></i> Dashboard</a></li>
+      <li><a href="events.html"><i class="fas fa-calendar-alt"></i> Events <span class="badge-count">3</span></a></li>
+      <li><a href="notes.html"><i class="fas fa-book-open"></i> Study Resources</a></li>
+      <li><a href="feed.html"><i class="fas fa-stream"></i> Campus Feed</a></li>
+    </ul>
+    <div class="sidebar-section">Academic</div>
+    <ul>
+      <li><a href="#"><i class="fas fa-file-alt"></i> Results</a></li>
+      <li><a href="#"><i class="fas fa-clock"></i> Timetable</a></li>
+      <li><a href="#"><i class="fas fa-bell"></i> Notifications <span class="badge-count">5</span></a></li>
+    </ul>
+    <div class="sidebar-section">Account</div>
+    <ul>
+      <li><a href="#"><i class="fas fa-user-circle"></i> My Profile</a></li>
+      <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+      <li><a href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+  </nav>
+  <div class="sidebar-user">
+    <div class="user-avatar">RS</div>
+    <div class="user-info">
+      <span>Rahul S.</span>
+      <small>CSE – 4th Year</small>
+    </div>
+  </div>
+</aside>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-left">
+    <button class="hamburger" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+    <div>
+      <div class="topbar-title">Dashboard</div>
+      <div class="topbar-subtitle" id="greetingLine">Good morning, Rahul! 👋</div>
+    </div>
+  </div>
+  <div class="topbar-search">
+    <i class="fas fa-search"></i>
+    <input type="text" placeholder="Search events, notes, announcements..."/>
+  </div>
+  <div class="topbar-right">
+    <div class="topbar-icon-btn" title="Notifications">
+      <i class="fas fa-bell"></i>
+      <span class="notif-dot"></span>
+    </div>
+    <div class="topbar-icon-btn" title="Messages"><i class="fas fa-envelope"></i></div>
+    <div class="topbar-avatar">RS</div>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+
+  <!-- STAT CARDS — Attendance removed -->
+  <div class="stat-grid fade-in fade-in-1">
+    <div class="stat-card">
+      <div class="stat-icon blue"><i class="fas fa-calendar-check"></i></div>
+      <div class="stat-info">
+        <div class="stat-value">12</div>
+        <div class="stat-label">Upcoming Events</div>
+        <div class="stat-change up"><i class="fas fa-arrow-up"></i> 3 this week</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon purple"><i class="fas fa-book"></i></div>
+      <div class="stat-info">
+        <div class="stat-value">48</div>
+        <div class="stat-label">Study Resources</div>
+        <div class="stat-change up"><i class="fas fa-arrow-up"></i> 5 new added</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon amber"><i class="fas fa-bell"></i></div>
+      <div class="stat-info">
+        <div class="stat-value">5</div>
+        <div class="stat-label">New Notifications</div>
+        <div class="stat-change down"><i class="fas fa-dot-circle"></i> 2 urgent</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALERT BANNER -->
+  <div class="alert alert-warning fade-in fade-in-2">
+    <i class="fas fa-exclamation-triangle"></i>
+    <span><strong>Exam Alert:</strong> Internal Assessment – Unit 3 for DBMS scheduled on <strong>April 10, 2024</strong>. Check the timetable.</span>
+  </div>
+
+  <!-- ROW 1: EVENTS + ANNOUNCEMENTS -->
+  <div class="content-grid fade-in fade-in-2">
+    <!-- Upcoming Events -->
+    <div class="card">
+      <div class="card-header">
+        <span><i class="fas fa-calendar-alt" style="color:var(--primary);margin-right:8px;"></i>Upcoming Events</span>
+        <div class="card-actions"><a href="events.html">View All →</a></div>
+      </div>
+      <div class="card-body">
+        <div class="event-item">
+          <div class="event-date-box" style="background:#4f46e5;">
+            <span class="ed-day">15</span><span class="ed-month">Apr</span>
+          </div>
+          <div class="event-info">
+            <h6>Tech Fest 2024 – Innovate</h6>
+            <p><i class="fas fa-map-marker-alt"></i> Seminar Hall A &nbsp;|&nbsp; 9:00 AM</p>
+            <div class="event-meta">
+              <span class="badge badge-primary">Cultural</span>
+              <span class="badge badge-info">Open</span>
+            </div>
+          </div>
+        </div>
+        <div class="event-item">
+          <div class="event-date-box" style="background:#ec4899;">
+            <span class="ed-day">18</span><span class="ed-month">Apr</span>
+          </div>
+          <div class="event-info">
+            <h6>ML Workshop – Hands on Python</h6>
+            <p><i class="fas fa-map-marker-alt"></i> CS Lab 2 &nbsp;|&nbsp; 10:30 AM</p>
+            <div class="event-meta">
+              <span class="badge badge-warning">Workshop</span>
+              <span class="badge badge-success">Register Now</span>
+            </div>
+          </div>
+        </div>
+        <div class="event-item">
+          <div class="event-date-box" style="background:#10b981;">
+            <span class="ed-day">22</span><span class="ed-month">Apr</span>
+          </div>
+          <div class="event-info">
+            <h6>Sports Day – Inter-Department</h6>
+            <p><i class="fas fa-map-marker-alt"></i> College Ground &nbsp;|&nbsp; 8:00 AM</p>
+            <div class="event-meta">
+              <span class="badge badge-success">Sports</span>
+            </div>
+          </div>
+        </div>
+        <div class="event-item">
+          <div class="event-date-box" style="background:#f59e0b;">
+            <span class="ed-day">28</span><span class="ed-month">Apr</span>
+          </div>
+          <div class="event-info">
+            <h6>Placement Orientation – TCS, Infosys</h6>
+            <p><i class="fas fa-map-marker-alt"></i> Auditorium &nbsp;|&nbsp; 11:00 AM</p>
+            <div class="event-meta">
+              <span class="badge badge-danger">Placement</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANNOUNCEMENTS -->
+    <div class="card">
+      <div class="card-header">
+        <span><i class="fas fa-bullhorn" style="color:var(--primary);margin-right:8px;"></i>Announcements</span>
+        <div class="card-actions"><button>Mark All Read</button></div>
+      </div>
+      <div class="card-body">
+        <div class="announcement-item">
+          <div class="announce-icon urgent"><i class="fas fa-exclamation-triangle"></i></div>
+          <div class="announce-content">
+            <h6>DBMS Internal Exam – Date Changed</h6>
+            <p>Internal exam for DBMS (Unit 3) rescheduled to April 10. Please check updated timetable on portal.</p>
+            <div class="announce-time"><i class="fas fa-clock"></i> 2 hours ago</div>
+          </div>
+        </div>
+        <div class="announcement-item">
+          <div class="announce-icon info"><i class="fas fa-info-circle"></i></div>
+          <div class="announce-content">
+            <h6>Library New Arrivals – April 2024</h6>
+            <p>New books on Machine Learning, Data Structures, and Cloud Computing added to library.</p>
+            <div class="announce-time"><i class="fas fa-clock"></i> 1 day ago</div>
+          </div>
+        </div>
+        <div class="announcement-item">
+          <div class="announce-icon exam"><i class="fas fa-graduation-cap"></i></div>
+          <div class="announce-content">
+            <h6>Semester Results – March 2024</h6>
+            <p>Semester exam results have been published. Login to the exam portal to check your marks.</p>
+            <div class="announce-time"><i class="fas fa-clock"></i> 2 days ago</div>
+          </div>
+        </div>
+        <div class="announcement-item">
+          <div class="announce-icon general"><i class="fas fa-check-circle"></i></div>
+          <div class="announce-content">
+            <h6>Wi-Fi Upgrade on Campus</h6>
+            <p>Campus Wi-Fi speed upgraded to 1 Gbps. New credentials sent to registered email.</p>
+            <div class="announce-time"><i class="fas fa-clock"></i> 3 days ago</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 2: TODAY'S SCHEDULE + QUICK ACCESS -->
+  <div class="content-grid fade-in fade-in-3">
+    <!-- Today's Schedule -->
+    <div class="card">
+      <div class="card-header">
+        <span><i class="fas fa-clock" style="color:var(--primary);margin-right:8px;"></i>Today's Schedule</span>
+        <div class="card-actions"><a href="#">Full Timetable</a></div>
+      </div>
+      <div class="card-body">
+        <div class="schedule-item">
+          <div class="schedule-time">8:30 AM</div>
+          <div class="schedule-dot"></div>
+          <div class="schedule-content">
+            <h6>Data Structures (CS301)</h6>
+            <p>Prof. Anitha Sharma &nbsp;·&nbsp; Room 204</p>
+          </div>
+        </div>
+        <div class="schedule-item">
+          <div class="schedule-time">10:30 AM</div>
+          <div class="schedule-dot"></div>
+          <div class="schedule-content">
+            <h6>Database Management (CS302)</h6>
+            <p>Prof. Ramesh Kumar &nbsp;·&nbsp; Room 106</p>
+          </div>
+        </div>
+        <div class="schedule-item">
+          <div class="schedule-time">12:30 PM</div>
+          <div class="schedule-dot" style="border-color:#f59e0b;"></div>
+          <div class="schedule-content">
+            <h6>Lunch Break</h6>
+            <p>Canteen &nbsp;·&nbsp; 1 hour</p>
+          </div>
+        </div>
+        <div class="schedule-item">
+          <div class="schedule-time">1:30 PM</div>
+          <div class="schedule-dot"></div>
+          <div class="schedule-content">
+            <h6>Computer Networks (CS303)</h6>
+            <p>Prof. Priya Nair &nbsp;·&nbsp; Lab 3</p>
+          </div>
+        </div>
+        <div class="schedule-item">
+          <div class="schedule-time">3:30 PM</div>
+          <div class="schedule-dot"></div>
+          <div class="schedule-content">
+            <h6>Project Lab (Main Project)</h6>
+            <p>Prof. Suresh &nbsp;·&nbsp; Lab 1</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Access -->
+    <div class="card">
+      <div class="card-header">
+        <span><i class="fas fa-bolt" style="color:var(--primary);margin-right:8px;"></i>Quick Access</span>
+      </div>
+      <div class="card-body">
+        <div class="quick-tiles">
+          <a href="events.html" class="quick-tile"><i class="fas fa-calendar"></i><span>Events</span></a>
+          <a href="notes.html" class="quick-tile"><i class="fas fa-book"></i><span>Notes</span></a>
+          <a href="feed.html" class="quick-tile"><i class="fas fa-stream"></i><span>Feed</span></a>
+          <a href="#" class="quick-tile"><i class="fas fa-file-alt"></i><span>Results</span></a>
+          <a href="#" class="quick-tile"><i class="fas fa-clock"></i><span>Timetable</span></a>
+          <a href="admin.html" class="quick-tile"><i class="fas fa-cog"></i><span>Admin</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECENT RESOURCES -->
+  <div class="card fade-in fade-in-4">
+    <div class="card-header">
+      <span><i class="fas fa-book-open" style="color:var(--primary);margin-right:8px;"></i>Recently Added Resources</span>
+      <div class="card-actions"><a href="notes.html">View All →</a></div>
+    </div>
+    <div class="card-body">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div class="resource-card">
+          <div class="resource-icon pdf"><i class="fas fa-file-pdf"></i></div>
+          <div class="resource-info"><h6>Data Structures – Unit 4 Notes</h6><p>Prof. Anitha &nbsp;·&nbsp; 2.3 MB &nbsp;·&nbsp; PDF</p></div>
+          <a href="#" class="resource-action"><i class="fas fa-download"></i></a>
+        </div>
+        <div class="resource-card">
+          <div class="resource-icon video"><i class="fas fa-play-circle"></i></div>
+          <div class="resource-info"><h6>DBMS – SQL Joins Explained</h6><p>YouTube Link &nbsp;·&nbsp; 24 mins</p></div>
+          <a href="#" class="resource-action"><i class="fas fa-external-link-alt"></i></a>
+        </div>
+        <div class="resource-card">
+          <div class="resource-icon doc"><i class="fas fa-file-alt"></i></div>
+          <div class="resource-info"><h6>CN – OSI Model Full Notes</h6><p>Prof. Priya &nbsp;·&nbsp; 1.8 MB &nbsp;·&nbsp; DOC</p></div>
+          <a href="#" class="resource-action"><i class="fas fa-download"></i></a>
+        </div>
+        <div class="resource-card">
+          <div class="resource-icon link"><i class="fas fa-link"></i></div>
+          <div class="resource-info"><h6>OS – Process Scheduling – GeeksForGeeks</h6><p>Reference Link</p></div>
+          <a href="#" class="resource-action"><i class="fas fa-external-link-alt"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+const h = new Date().getHours();
+const greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+document.getElementById('greetingLine').textContent = greet + ', Rahul! 👋';
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+</script>
+</body>
+</html>

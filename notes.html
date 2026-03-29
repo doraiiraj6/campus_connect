@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Study Resources – Campus Connect</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">🎓</div>
+    <span>Campus Connect<small>Student Portal</small></span>
+  </div>
+  <div class="sidebar-section">Main Menu</div>
+  <nav class="sidebar-nav">
+    <ul>
+      <li><a href="dashboard.html"><i class="fas fa-th-large"></i> Dashboard</a></li>
+      <li><a href="events.html"><i class="fas fa-calendar-alt"></i> Events</a></li>
+      <li><a href="notes.html" class="active"><i class="fas fa-book-open"></i> Study Resources</a></li>
+      <li><a href="feed.html"><i class="fas fa-stream"></i> Campus Feed</a></li>
+    </ul>
+    <div class="sidebar-section">Account</div>
+    <ul>
+      <li><a href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+  </nav>
+  <div class="sidebar-user">
+    <div class="user-avatar">RS</div>
+    <div class="user-info"><span>Rahul S.</span><small>CSE – 4th Year</small></div>
+  </div>
+</aside>
+
+<header class="topbar">
+  <div class="topbar-left">
+    <button class="hamburger" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+    <div>
+      <div class="topbar-title">Study Resources</div>
+      <div class="topbar-subtitle">Notes, videos & reference links</div>
+    </div>
+  </div>
+  <div class="topbar-search">
+    <i class="fas fa-search"></i>
+    <input type="text" placeholder="Search notes, subjects..." id="searchInput" oninput="applyFilters()"/>
+  </div>
+  <div class="topbar-right">
+    <div class="topbar-icon-btn"><i class="fas fa-bell"></i><span class="notif-dot"></span></div>
+    <div class="topbar-avatar">RS</div>
+  </div>
+</header>
+
+<main class="main-content">
+  <div class="page-header fade-in">
+    <div>
+      <h2>📚 Study Resources</h2>
+      <p>Access subject-wise notes, lecture videos, and reference links uploaded by faculty.</p>
+    </div>
+    <select class="form-control" style="max-width:180px;" id="yearFilter" onchange="applyFilters()">
+      <option value="all">All Years</option>
+      <option value="1">1st Year</option>
+      <option value="2">2nd Year</option>
+      <option value="3">3rd Year</option>
+      <option value="4" selected>4th Year</option>
+    </select>
+  </div>
+
+  <!-- STAT CARDS -->
+  <div class="stat-grid fade-in fade-in-1" style="grid-template-columns:repeat(4,1fr);">
+    <div class="stat-card">
+      <div class="stat-icon purple"><i class="fas fa-file-pdf"></i></div>
+      <div class="stat-info"><div class="stat-value">24</div><div class="stat-label">PDF Notes</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon cyan"><i class="fas fa-play-circle"></i></div>
+      <div class="stat-info"><div class="stat-value">18</div><div class="stat-label">Video Links</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon blue"><i class="fas fa-link"></i></div>
+      <div class="stat-info"><div class="stat-value">32</div><div class="stat-label">Reference Links</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon green"><i class="fas fa-file-alt"></i></div>
+      <div class="stat-info"><div class="stat-value">14</div><div class="stat-label">Question Papers</div></div>
+    </div>
+  </div>
+
+  <!-- FILTER TABS -->
+  <div class="filter-tabs fade-in fade-in-2">
+    <div class="filter-tab active" onclick="filterByType('all', this)">All Resources</div>
+    <div class="filter-tab" onclick="filterByType('pdf', this)">📄 PDFs</div>
+    <div class="filter-tab" onclick="filterByType('video', this)">🎬 Videos</div>
+    <div class="filter-tab" onclick="filterByType('link', this)">🔗 Links</div>
+    <div class="filter-tab" onclick="filterByType('qpaper', this)">📝 Question Papers</div>
+  </div>
+
+  <!-- SUBJECT SECTIONS -->
+  <div id="resourcesContainer" class="fade-in fade-in-3"></div>
+</main>
+
+<script>
+const notes = [
+  { id:1, subject:'Data Structures & Algorithms', code:'CS301', year:4, type:'pdf', title:'Unit 1 – Arrays & Linked Lists', faculty:'Prof. Anitha Sharma', size:'2.1 MB', date:'Mar 28', url:'#' },
+  { id:2, subject:'Data Structures & Algorithms', code:'CS301', year:4, type:'pdf', title:'Unit 2 – Stacks & Queues', faculty:'Prof. Anitha Sharma', size:'1.8 MB', date:'Mar 20', url:'#' },
+  { id:3, subject:'Data Structures & Algorithms', code:'CS301', year:4, type:'video', title:'Trees & Binary Search Trees – Explained', faculty:'YouTube – Abdul Bari', size:'38 mins', date:'Mar 15', url:'https://youtube.com' },
+  { id:4, subject:'Data Structures & Algorithms', code:'CS301', year:4, type:'link', title:'GeeksForGeeks – DSA Complete Guide', faculty:'Reference', size:'—', date:'Mar 10', url:'https://geeksforgeeks.org' },
+  { id:5, subject:'Database Management Systems', code:'CS302', year:4, type:'pdf', title:'Unit 1 – ER Diagrams & Normalization', faculty:'Prof. Ramesh Kumar', size:'3.2 MB', date:'Mar 25', url:'#' },
+  { id:6, subject:'Database Management Systems', code:'CS302', year:4, type:'pdf', title:'Unit 3 – SQL Queries & Joins', faculty:'Prof. Ramesh Kumar', size:'2.5 MB', date:'Mar 18', url:'#' },
+  { id:7, subject:'Database Management Systems', code:'CS302', year:4, type:'video', title:'SQL Joins Full Tutorial – Programming with Mosh', faculty:'YouTube', size:'45 mins', date:'Mar 12', url:'https://youtube.com' },
+  { id:8, subject:'Database Management Systems', code:'CS302', year:4, type:'qpaper', title:'DBMS Previous Year Question Paper – 2023', faculty:'Exam Cell', size:'0.8 MB', date:'Feb 20', url:'#' },
+  { id:9, subject:'Computer Networks', code:'CS303', year:4, type:'pdf', title:'Unit 2 – OSI Model & TCP/IP', faculty:'Prof. Priya Nair', size:'2.8 MB', date:'Mar 22', url:'#' },
+  { id:10, subject:'Computer Networks', code:'CS303', year:4, type:'video', title:'Computer Networks Full Course – Kurose & Ross', faculty:'YouTube', size:'2h 30mins', date:'Mar 8', url:'https://youtube.com' },
+  { id:11, subject:'Computer Networks', code:'CS303', year:4, type:'link', title:'Cisco NetAcad – Free CN Course', faculty:'Cisco', size:'—', date:'Mar 5', url:'https://netacad.com' },
+  { id:12, subject:'Operating Systems', code:'CS304', year:4, type:'pdf', title:'Unit 1 – Process Management', faculty:'Prof. Suresh', size:'1.9 MB', date:'Mar 28', url:'#' },
+  { id:13, subject:'Operating Systems', code:'CS304', year:4, type:'pdf', title:'Unit 3 – Memory Management', faculty:'Prof. Suresh', size:'2.3 MB', date:'Mar 19', url:'#' },
+  { id:14, subject:'Operating Systems', code:'CS304', year:4, type:'qpaper', title:'OS Previous Year Questions – 2022 & 2023', faculty:'Exam Cell', size:'1.1 MB', date:'Feb 15', url:'#' },
+  { id:15, subject:'Machine Learning', code:'CS401', year:4, type:'pdf', title:'Unit 1 – Introduction to ML', faculty:'Prof. Deepa', size:'3.5 MB', date:'Mar 30', url:'#' },
+  { id:16, subject:'Machine Learning', code:'CS401', year:4, type:'video', title:'ML by Andrew Ng – Week 1 & 2', faculty:'Coursera', size:'4h', date:'Mar 24', url:'https://coursera.org' },
+  { id:17, subject:'Machine Learning', code:'CS401', year:4, type:'link', title:'Kaggle – Free ML Courses', faculty:'Kaggle', size:'—', date:'Mar 20', url:'https://kaggle.com' },
+];
+
+const typeIcons = { pdf:'pdf', video:'video', link:'link', qpaper:'pdf', doc:'doc' };
+const typeIconClass = { pdf:'fa-file-pdf', video:'fa-play-circle', link:'fa-link', qpaper:'fa-file-alt', doc:'fa-file-word' };
+const typeLabel = { pdf:'PDF', video:'Video', link:'Link', qpaper:'Q.Paper' };
+
+let currentType = 'all';
+
+function applyFilters() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const yr = document.getElementById('yearFilter').value;
+  let filtered = notes;
+  if (currentType !== 'all') filtered = filtered.filter(n => n.type === currentType);
+  if (yr !== 'all') filtered = filtered.filter(n => n.year === parseInt(yr));
+  if (q) filtered = filtered.filter(n => n.title.toLowerCase().includes(q) || n.subject.toLowerCase().includes(q));
+  renderResources(filtered);
+}
+
+function filterByType(type, el) {
+  currentType = type;
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  applyFilters();
+}
+
+function renderResources(data) {
+  const container = document.getElementById('resourcesContainer');
+  if (!data.length) { container.innerHTML = '<div class="card"><div class="card-body text-center text-muted" style="padding:40px;">No resources found.</div></div>'; return; }
+  const subjects = [...new Set(data.map(n => n.subject))];
+  container.innerHTML = subjects.map(sub => {
+    const items = data.filter(n => n.subject === sub);
+    const first = items[0];
+    return `
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-header">
+        <span><i class="fas fa-book" style="color:var(--primary);margin-right:8px;"></i>${sub} <span style="color:var(--text-muted);font-size:0.8rem;font-weight:400;">(${first.code})</span></span>
+        <span style="font-size:0.82rem;color:var(--text-muted);">${items.length} resource${items.length>1?'s':''}</span>
+      </div>
+      <div class="card-body">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;">
+          ${items.map(n => `
+          <div class="resource-card" onclick="${n.url!=='#'?'window.open(\''+n.url+'\')':''}">
+            <div class="resource-icon ${typeIcons[n.type]||'link'}"><i class="fas ${typeIconClass[n.type]||'fa-link'}"></i></div>
+            <div class="resource-info">
+              <h6>${n.title}</h6>
+              <p>${n.faculty} &nbsp;·&nbsp; ${n.size} &nbsp;·&nbsp; ${n.date}</p>
+            </div>
+            <div class="resource-action">
+              ${n.type==='link'||n.type==='video'?'<i class="fas fa-external-link-alt"></i>':'<i class="fas fa-download"></i>'}
+            </div>
+          </div>`).join('')}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+renderResources(notes);
+
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('show'); }
+function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
+</script>
+</body>
+</html>

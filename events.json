@@ -1,0 +1,8 @@
+[
+  { "id": 1, "name": "Tech Fest 2024 – Innovate", "type": "cultural", "date": "2024-04-15", "time": "9:00 AM", "venue": "Seminar Hall A", "description": "Annual technical fest with hackathon, robotics, coding contests.", "status": "open" },
+  { "id": 2, "name": "ML Workshop – Hands-on Python", "type": "workshop", "date": "2024-04-18", "time": "10:30 AM", "venue": "CS Lab 2", "description": "Hands-on Machine Learning workshop using Python, Pandas, Scikit-Learn.", "status": "open" },
+  { "id": 3, "name": "DBMS Internal Exam – Unit 3", "type": "exam", "date": "2024-04-10", "time": "9:00 AM", "venue": "Exam Hall", "description": "Internal assessment for Database Management Systems – Unit 3.", "status": "upcoming" },
+  { "id": 4, "name": "Sports Day – Inter-Department", "type": "sports", "date": "2024-04-22", "time": "8:00 AM", "venue": "College Ground", "description": "Annual sports meet with cricket, football, badminton, and athletics.", "status": "open" },
+  { "id": 5, "name": "Placement Orientation – TCS, Infosys", "type": "placement", "date": "2024-04-28", "time": "11:00 AM", "venue": "Auditorium", "description": "Placement drive orientation. Companies: TCS, Infosys, Wipro.", "status": "upcoming" },
+  { "id": 6, "name": "Cloud Computing Seminar", "type": "seminar", "date": "2024-04-20", "time": "2:00 PM", "venue": "Room 105", "description": "Guest lecture on Cloud Computing and AWS by industry expert.", "status": "open" }
+]
