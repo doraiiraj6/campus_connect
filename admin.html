@@ -47,6 +47,7 @@
 </header>
 
 <main class="main-content">
+
   <!-- STATS -->
   <div class="stat-grid fade-in">
     <div class="stat-card">
@@ -55,7 +56,7 @@
     </div>
     <div class="stat-card">
       <div class="stat-icon purple"><i class="fas fa-calendar-alt"></i></div>
-      <div class="stat-info"><div class="stat-value">12</div><div class="stat-label">Active Events</div></div>
+      <div class="stat-info"><div class="stat-value" id="eventCount">12</div><div class="stat-label">Active Events</div></div>
     </div>
     <div class="stat-card">
       <div class="stat-icon green"><i class="fas fa-book"></i></div>
@@ -63,11 +64,12 @@
     </div>
     <div class="stat-card">
       <div class="stat-icon amber"><i class="fas fa-bullhorn"></i></div>
-      <div class="stat-info"><div class="stat-value">6</div><div class="stat-label">Announcements</div></div>
+      <div class="stat-info"><div class="stat-value" id="annCount">0</div><div class="stat-label">Announcements Posted</div></div>
     </div>
   </div>
 
   <div class="content-grid fade-in fade-in-2">
+
     <!-- ADD EVENT FORM -->
     <div class="card">
       <div class="card-header"><span><i class="fas fa-plus-circle" style="color:var(--primary);margin-right:8px;"></i>Add New Event</span></div>
@@ -104,6 +106,9 @@
         </div>
         <button class="btn btn-primary" onclick="addEvent()"><i class="fas fa-plus"></i> Add Event</button>
         <div id="evMsg" style="margin-top:10px;font-size:0.85rem;"></div>
+
+        <!-- Live preview of added events -->
+        <div id="addedEventsList" style="margin-top:16px;"></div>
       </div>
     </div>
 
@@ -157,26 +162,48 @@
 
   <!-- ANNOUNCEMENTS FORM -->
   <div class="card fade-in fade-in-3" style="margin-bottom:24px;">
-    <div class="card-header"><span><i class="fas fa-bullhorn" style="color:var(--primary);margin-right:8px;"></i>Post Announcement</span></div>
-    <div class="card-body" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;align-items:end;">
-      <div class="form-group mb-0">
-        <label class="form-label">Announcement Title</label>
-        <input type="text" class="form-control" id="annTitle" placeholder="e.g., Exam Schedule Updated"/>
-      </div>
-      <div class="form-group mb-0">
-        <label class="form-label">Priority</label>
-        <select class="form-control" id="annPriority">
-          <option>General</option><option>Info</option><option>Urgent</option><option>Exam</option>
-        </select>
-      </div>
-      <div class="form-group mb-0">
-        <label class="form-label">Message</label>
-        <input type="text" class="form-control" id="annMsg" placeholder="Short message..."/>
+    <div class="card-header">
+      <span><i class="fas fa-bullhorn" style="color:var(--primary);margin-right:8px;"></i>Post Announcement</span>
+      <div class="card-actions">
+        <button onclick="clearAllAnnouncements()" style="background:#fee2e2;color:#dc2626;border:none;padding:5px 12px;border-radius:6px;font-size:0.8rem;cursor:pointer;font-weight:700;">
+          <i class="fas fa-trash"></i> Clear All
+        </button>
       </div>
     </div>
-    <div class="card-body" style="padding-top:0;">
-      <button class="btn btn-primary" onclick="postAnnouncement()"><i class="fas fa-paper-plane"></i> Post Announcement</button>
+    <div class="card-body">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="form-group">
+          <label class="form-label">Announcement Title *</label>
+          <input type="text" class="form-control" id="annTitle" placeholder="e.g., Exam Schedule Updated"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Priority</label>
+          <select class="form-control" id="annPriority">
+            <option value="urgent">🔴 Urgent</option>
+            <option value="info">🔵 Info</option>
+            <option value="exam">🎓 Exam</option>
+            <option value="general">✅ General</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Full Message *</label>
+        <textarea class="form-control" id="annMsg" rows="3" placeholder="Write full announcement details here..."></textarea>
+      </div>
+      <button class="btn btn-primary" onclick="postAnnouncement()">
+        <i class="fas fa-paper-plane"></i> Post to Student Dashboard
+      </button>
       <div id="annResult" style="margin-top:10px;font-size:0.85rem;"></div>
+    </div>
+
+    <!-- Live list of posted announcements -->
+    <div class="card-body" style="border-top:1px solid var(--border);padding-top:16px;">
+      <div style="font-weight:700;font-size:0.9rem;margin-bottom:12px;color:var(--text-muted);">
+        📋 Posted Announcements (visible to students)
+      </div>
+      <div id="postedAnnList">
+        <p style="color:var(--text-muted);font-size:0.85rem;">No announcements posted yet.</p>
+      </div>
     </div>
   </div>
 
@@ -184,31 +211,34 @@
   <div class="card fade-in fade-in-4">
     <div class="card-header">
       <span><i class="fas fa-users" style="color:var(--primary);margin-right:8px;"></i>Registered Students</span>
-      <div class="card-actions"><input type="text" placeholder="Search..." style="padding:5px 10px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem;" oninput="searchStudents(this.value)"/></div>
+      <div class="card-actions">
+        <input type="text" placeholder="Search..." style="padding:5px 10px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem;" oninput="searchStudents(this.value)"/>
+      </div>
     </div>
     <div class="table-responsive">
       <table>
         <thead>
-          <tr><th>Roll No</th><th>Name</th><th>Department</th><th>Year</th><th>Email</th><th>Attendance</th><th>Status</th></tr>
+          <tr><th>Roll No</th><th>Name</th><th>Department</th><th>Year</th><th>Email</th><th>Status</th></tr>
         </thead>
         <tbody id="studentsTable"></tbody>
       </table>
     </div>
   </div>
+
 </main>
 
 <script>
+// ── Students data ──────────────────────────
 const students = [
-  { roll:'CS21001', name:'Rahul Sharma', dept:'CSE', year:'4th', email:'rahul@cc.edu', att:82, status:'active' },
-  { roll:'CS21002', name:'Priya Menon', dept:'CSE', year:'4th', email:'priya@cc.edu', att:91, status:'active' },
-  { roll:'CS21003', name:'Arun Kumar', dept:'CSE', year:'4th', email:'arun@cc.edu', att:65, status:'warning' },
-  { roll:'CS21004', name:'Sneha Patel', dept:'CSE', year:'4th', email:'sneha@cc.edu', att:88, status:'active' },
-  { roll:'EC21005', name:'Vikram Iyer', dept:'ECE', year:'4th', email:'vikram@cc.edu', att:74, status:'active' },
-  { roll:'ME21006', name:'Deepa Nair', dept:'MECH', year:'4th', email:'deepa@cc.edu', att:55, status:'low' },
-  { roll:'CS21007', name:'Ankit Raj', dept:'CSE', year:'3rd', email:'ankit@cc.edu', att:79, status:'active' },
-  { roll:'CS21008', name:'Kavya S.', dept:'CSE', year:'3rd', email:'kavya@cc.edu', att:93, status:'active' },
+  { roll:'CS21001', name:'Rahul Sharma',  dept:'CSE',  year:'4th', email:'rahul@cc.edu',  att:82, status:'active'  },
+  { roll:'CS21002', name:'Priya Menon',   dept:'CSE',  year:'4th', email:'priya@cc.edu',  att:91, status:'active'  },
+  { roll:'CS21003', name:'Arun Kumar',    dept:'CSE',  year:'4th', email:'arun@cc.edu',   att:65, status:'warning' },
+  { roll:'CS21004', name:'Sneha Patel',   dept:'CSE',  year:'4th', email:'sneha@cc.edu',  att:88, status:'active'  },
+  { roll:'EC21005', name:'Vikram Iyer',   dept:'ECE',  year:'4th', email:'vikram@cc.edu', att:74, status:'active'  },
+  { roll:'ME21006', name:'Deepa Nair',    dept:'MECH', year:'4th', email:'deepa@cc.edu',  att:55, status:'low'     },
+  { roll:'CS21007', name:'Ankit Raj',     dept:'CSE',  year:'3rd', email:'ankit@cc.edu',  att:79, status:'active'  },
+  { roll:'CS21008', name:'Kavya S.',      dept:'CSE',  year:'3rd', email:'kavya@cc.edu',  att:93, status:'active'  },
 ];
-
 let studentsData = [...students];
 
 function renderStudents(data) {
@@ -220,60 +250,181 @@ function renderStudents(data) {
       <td>${s.dept}</td>
       <td>${s.year}</td>
       <td>${s.email}</td>
-      <td><span class="badge badge-${attColor(s.att)}">${s.att}%</span></td>
       <td><span class="badge badge-${s.status==='active'?'success':s.status==='warning'?'warning':'danger'}">${s.status}</span></td>
     </tr>`).join('');
 }
 
 function searchStudents(q) {
   const f = q.toLowerCase();
-  renderStudents(studentsData.filter(s => s.name.toLowerCase().includes(f) || s.roll.toLowerCase().includes(f) || s.dept.toLowerCase().includes(f)));
+  renderStudents(studentsData.filter(s =>
+    s.name.toLowerCase().includes(f) ||
+    s.roll.toLowerCase().includes(f) ||
+    s.dept.toLowerCase().includes(f)
+  ));
 }
 
+// ── ADD EVENT ──────────────────────────────
 function addEvent() {
-  const name = document.getElementById('evName').value.trim();
-  const type = document.getElementById('evType').value;
-  const date = document.getElementById('evDate').value;
+  const name  = document.getElementById('evName').value.trim();
+  const type  = document.getElementById('evType').value;
+  const date  = document.getElementById('evDate').value;
+  const time  = document.getElementById('evTime').value;
   const venue = document.getElementById('evVenue').value.trim();
-  const msg = document.getElementById('evMsg');
+  const desc  = document.getElementById('evDesc').value.trim();
+  const msg   = document.getElementById('evMsg');
+
   if (!name || !type || !date || !venue) {
-    msg.innerHTML = '<span style="color:var(--danger);">❌ Please fill all required fields.</span>'; return;
+    msg.innerHTML = '<span style="color:var(--danger);">❌ Please fill all required fields.</span>';
+    return;
   }
-  msg.innerHTML = `<span style="color:var(--success);">✅ Event "<strong>${name}</strong>" added successfully! (Demo – not saved to file)</span>`;
-  document.getElementById('evName').value = '';
+
+  // Save to localStorage
+  let events = JSON.parse(localStorage.getItem('campusEvents') || '[]');
+  const newEvent = { name, type, date, time, venue, desc, postedAt: new Date().toLocaleString() };
+  events.unshift(newEvent);
+  localStorage.setItem('campusEvents', JSON.stringify(events));
+
+  // Update count
+  const countEl = document.getElementById('eventCount');
+  countEl.textContent = parseInt(countEl.textContent) + 1;
+
+  // Show in admin list
+  const list = document.getElementById('addedEventsList');
+  const item = document.createElement('div');
+  item.style.cssText = 'background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 14px;margin-bottom:8px;font-size:0.85rem;';
+  item.innerHTML = `<strong>✅ ${name}</strong> &nbsp;|&nbsp; ${type} &nbsp;|&nbsp; ${date} ${time} &nbsp;|&nbsp; ${venue}
+    <div style="color:#64748b;margin-top:3px;">${desc}</div>`;
+  list.prepend(item);
+
+  msg.innerHTML = `<span style="color:var(--success);">✅ Event "<strong>${name}</strong>" added! Students will see it on Dashboard.</span>`;
+  document.getElementById('evName').value  = '';
   document.getElementById('evVenue').value = '';
-  document.getElementById('evDesc').value = '';
+  document.getElementById('evDesc').value  = '';
 }
 
+// ── ADD RESOURCE ───────────────────────────
 function addResource() {
   const title = document.getElementById('resTitle').value.trim();
-  const sub = document.getElementById('resSub').value;
-  const type = document.getElementById('resType').value;
-  const msg = document.getElementById('resMsg');
+  const sub   = document.getElementById('resSub').value;
+  const type  = document.getElementById('resType').value;
+  const year  = document.getElementById('resYear').value;
+  const url   = document.getElementById('resUrl').value.trim();
+  const msg   = document.getElementById('resMsg');
+
   if (!title || !sub || !type) {
-    msg.innerHTML = '<span style="color:var(--danger);">❌ Please fill all required fields.</span>'; return;
+    msg.innerHTML = '<span style="color:var(--danger);">❌ Please fill all required fields.</span>';
+    return;
   }
-  msg.innerHTML = `<span style="color:var(--success);">✅ Resource "<strong>${title}</strong>" uploaded! (Demo)</span>`;
+
+  // Save to localStorage
+  let resources = JSON.parse(localStorage.getItem('campusResources') || '[]');
+  resources.unshift({ title, sub, type, year, url, postedAt: new Date().toLocaleString() });
+  localStorage.setItem('campusResources', JSON.stringify(resources));
+
+  msg.innerHTML = `<span style="color:var(--success);">✅ Resource "<strong>${title}</strong>" uploaded! Visible in Study Resources.</span>`;
   document.getElementById('resTitle').value = '';
-  document.getElementById('resUrl').value = '';
+  document.getElementById('resUrl').value   = '';
 }
 
+// ── POST ANNOUNCEMENT ──────────────────────
 function postAnnouncement() {
-  const title = document.getElementById('annTitle').value.trim();
-  const ann = document.getElementById('annMsg').value.trim();
-  const res = document.getElementById('annResult');
-  if (!title || !ann) {
-    res.innerHTML = '<span style="color:var(--danger);">❌ Title and message required.</span>'; return;
+  const title    = document.getElementById('annTitle').value.trim();
+  const message  = document.getElementById('annMsg').value.trim();
+  const priority = document.getElementById('annPriority').value;
+  const res      = document.getElementById('annResult');
+
+  if (!title || !message) {
+    res.innerHTML = '<span style="color:var(--danger);">❌ Title and message are required.</span>';
+    return;
   }
-  res.innerHTML = `<span style="color:var(--success);">✅ Announcement "<strong>${title}</strong>" posted to all students! (Demo)</span>`;
+
+  // ✅ Save to localStorage — dashboard will read this
+  let announcements = JSON.parse(localStorage.getItem('campusAnnouncements') || '[]');
+  const newAnn = {
+    id:       Date.now(),
+    title:    title,
+    message:  message,
+    priority: priority,
+    time:     new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' }),
+    date:     new Date().toLocaleDateString()
+  };
+  announcements.unshift(newAnn);
+  localStorage.setItem('campusAnnouncements', JSON.stringify(announcements));
+
+  // Update count badge
+  const countEl = document.getElementById('annCount');
+  countEl.textContent = parseInt(countEl.textContent) + 1;
+
+  // Show success
+  res.innerHTML = `<span style="color:var(--success);">✅ "<strong>${title}</strong>" posted! Open Dashboard to see it live.</span>`;
+
+  // Render posted list
+  renderPostedAnnouncements();
+
+  // Clear inputs
   document.getElementById('annTitle').value = '';
-  document.getElementById('annMsg').value = '';
+  document.getElementById('annMsg').value   = '';
 }
 
-renderStudents(studentsData);
+// ── RENDER POSTED ANNOUNCEMENTS LIST ───────
+function renderPostedAnnouncements() {
+  const list = document.getElementById('postedAnnList');
+  const announcements = JSON.parse(localStorage.getItem('campusAnnouncements') || '[]');
 
-function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('show'); }
-function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
+  if (announcements.length === 0) {
+    list.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem;">No announcements posted yet.</p>';
+    document.getElementById('annCount').textContent = '0';
+    return;
+  }
+
+  document.getElementById('annCount').textContent = announcements.length;
+
+  const iconMap = { urgent:'🔴', info:'🔵', exam:'🎓', general:'✅' };
+
+  list.innerHTML = announcements.map(a => `
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);">
+      <div>
+        <div style="font-weight:700;font-size:0.88rem;">${iconMap[a.priority]||'📢'} ${a.title}</div>
+        <div style="font-size:0.82rem;color:#475569;margin-top:2px;">${a.message}</div>
+        <div style="font-size:0.75rem;color:var(--text-muted);margin-top:3px;">Posted: ${a.date} at ${a.time}</div>
+      </div>
+      <button onclick="deleteAnnouncement(${a.id})"
+        style="background:#fee2e2;color:#dc2626;border:none;padding:4px 10px;border-radius:6px;font-size:0.75rem;cursor:pointer;margin-left:10px;flex-shrink:0;">
+        Delete
+      </button>
+    </div>`).join('');
+}
+
+// ── DELETE SINGLE ANNOUNCEMENT ─────────────
+function deleteAnnouncement(id) {
+  let announcements = JSON.parse(localStorage.getItem('campusAnnouncements') || '[]');
+  announcements = announcements.filter(a => a.id !== id);
+  localStorage.setItem('campusAnnouncements', JSON.stringify(announcements));
+  renderPostedAnnouncements();
+  document.getElementById('annResult').innerHTML = '<span style="color:var(--success);">🗑️ Announcement deleted.</span>';
+}
+
+// ── CLEAR ALL ANNOUNCEMENTS ────────────────
+function clearAllAnnouncements() {
+  if (!confirm('Clear ALL announcements? Students will no longer see them.')) return;
+  localStorage.removeItem('campusAnnouncements');
+  renderPostedAnnouncements();
+  document.getElementById('annResult').innerHTML = '<span style="color:var(--success);">🗑️ All announcements cleared.</span>';
+}
+
+// ── SIDEBAR ────────────────────────────────
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+// ── INIT ───────────────────────────────────
+renderStudents(studentsData);
+renderPostedAnnouncements();
 </script>
 </body>
 </html>
